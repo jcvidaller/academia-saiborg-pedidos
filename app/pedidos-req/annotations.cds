@@ -102,7 +102,7 @@ annotate service.Posiciones with @(
             {
                 $Type : 'UI.DataField',
                 Value : moneda_id,
-                Label : 'moneda_id',
+                Label : 'Moneda',
             },
         ],
     },
@@ -145,7 +145,12 @@ annotate service.Posiciones with {
             ],
             Label : 'Productos',
         },
-        Common.ValueListWithFixedValues : false
+        Common.ValueListWithFixedValues : false,
+        Common.Text : {
+            $value : material.nombre,
+            ![@UI.TextArrangement] : #TextOnly
+        },
+        Common.FieldControl : #Mandatory,
 )};
 
 annotate service.Posiciones with {
@@ -160,14 +165,24 @@ annotate service.Posiciones with {
 };
 
 annotate service.Pedidos with {
-    descripcion @Common.Label : 'Descripción'
+    descripcion @(
+        Common.Label : 'Descripción',
+        Common.FieldControl : #Mandatory,
+    )
 };
 
 annotate service.Pedidos with {
-    fechaEntrega @Common.Label : 'Fecha de entrega'
+    fechaEntrega @(
+        Common.Label : 'Fecha de entrega',
+        Common.FieldControl : #Mandatory,
+    )
 };
 
 annotate service.Material with {
     ID @Common.Text : nombre
+};
+
+annotate service.Posiciones with {
+    cantidad @Common.FieldControl : #Mandatory
 };
 
