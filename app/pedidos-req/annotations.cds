@@ -5,12 +5,12 @@ annotate service.Pedidos with @(
         Data : [
             {
                 $Type : 'UI.DataField',
-                Label : 'descripcion',
+                Label : 'Descripción',
                 Value : descripcion,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'fechaEntrega',
+                Label : 'Fecha de Entrega',
                 Value : fechaEntrega,
             },
         ],
@@ -32,19 +32,142 @@ annotate service.Pedidos with @(
     UI.LineItem : [
         {
             $Type : 'UI.DataField',
-            Label : 'descripcion',
+            Label : 'Descripción',
             Value : descripcion,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'fechaEntrega',
+            Label : 'Fecha de entrega',
             Value : fechaEntrega,
         },
+    ],
+    UI.HeaderInfo : {
+        TypeName : 'Pedido',
+        TypeNamePlural : 'Pedidos',
+        Title : {
+            $Type : 'UI.DataField',
+            Value : descripcion,
+        },
+    },
+    UI.SelectionFields : [
+        descripcion,
+        fechaEntrega,
     ],
 );
 
 annotate service.Posiciones with @(
     UI.LineItem #Posiciones : [
-    ]
+        {
+            $Type : 'UI.DataField',
+            Value : material.nombre,
+            Label : 'Producto',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : cantidad,
+            Label : 'Cantidad',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : precio,
+            Label : 'Importe',
+        },
+    ],
+    UI.Facets : [
+        {
+            $Type : 'UI.ReferenceFacet',
+            Label : 'General Information',
+            ID : 'GeneralInformation',
+            Target : '@UI.FieldGroup#GeneralInformation',
+        },
+    ],
+    UI.FieldGroup #GeneralInformation : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type : 'UI.DataField',
+                Value : material_ID,
+                Label : 'Producto',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : cantidad,
+                Label : 'Cantidad',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : precio,
+                Label : 'Importe',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : moneda_id,
+                Label : 'moneda_id',
+            },
+        ],
+    },
+    UI.HeaderInfo : {
+        TypeName : 'Posición',
+        TypeNamePlural : 'Posiciones',
+        Title : {
+            $Type : 'UI.DataField',
+            Value : material.nombre,
+        },
+    },
 );
+
+annotate service.Posiciones with {
+    material @(Common.ValueList : {
+            $Type : 'Common.ValueListType',
+            CollectionPath : 'Material',
+            Parameters : [
+                {
+                    $Type : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : material_ID,
+                    ValueListProperty : 'ID',
+                },
+                {
+                    $Type : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'nombre',
+                },
+                {
+                    $Type : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'tipo',
+                },
+                {
+                    $Type : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'precio',
+                },
+                {
+                    $Type : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'moneda_id',
+                },
+            ],
+            Label : 'Productos',
+        },
+        Common.ValueListWithFixedValues : false
+)};
+
+annotate service.Posiciones with {
+    precio @(
+        Common.FieldControl : #ReadOnly,
+        Measures.ISOCurrency : material.moneda_id,
+    )
+};
+
+annotate service.Posiciones with {
+    moneda @Common.FieldControl : #ReadOnly
+};
+
+annotate service.Pedidos with {
+    descripcion @Common.Label : 'Descripción'
+};
+
+annotate service.Pedidos with {
+    fechaEntrega @Common.Label : 'Fecha de entrega'
+};
+
+annotate service.Material with {
+    ID @Common.Text : nombre
+};
 

@@ -1,1 +1,7 @@
-ID,nombre,tipo,precio,moneda_id,createdAt,createdBy,modifiedAt,modifiedBy
+nombre,tipo,precio,moneda_id
+Zapatillas,Ropa,50.00,EUR
+PS5,Electronica,500.00,USD
+iPhone,Electronica,1200.00,USD
+Camiseta,Ropa,20.00,EUR
+Cargador,Electronica,20.00,EUR
+Nintendo Switch 2,Electronica,459.00,EUR
